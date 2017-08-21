@@ -1,57 +1,73 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 import uuid
 
 class TimezoneChart(models.Model):
     name = models.TextField()
+    hours = models.IntegerField(null=True)
 
-class Users(models.Model):
+    def __str__(self):
+        return self.name
+
+class User(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    username = models.TextField()
-    fname = models.TextField()
-    lname = models.TextField()
+    username = models.CharField(max_length=1024)
+    fname = models.CharField(max_length=1024)
+    lname = models.CharField(max_length=1024)
     email = models.EmailField()
     optIn = models.BooleanField(default=False)
-    tc_agree_timestamp = models.DateTimeField(blank=True, null=True)
-    salt = models.TextField()
-    hash = models.TextField()
+    tc_agree_timestamp = models.DateTimeField(blank=True, null=True, editable=False)
+    salt = models.CharField(max_length=1024, editable=False)
+    hash = models.CharField(max_length=1024, editable=False)
     userTimezone = models.ForeignKey(TimezoneChart)
-    createdDate = models.DateTimeField(default=timezone.now)
-    updatedDate = models.DateTimeField(default=timezone.now)
-    lastLoginDate = models.DateTimeField()
-    deleted = models.BooleanField(default=False)
+    createdDate = models.DateTimeField(default=timezone.now, editable=False)
+    updatedDate = models.DateTimeField(default=timezone.now, editable=False)
+    lastLoginDate = models.DateTimeField(editable=False)
+    deleted = models.BooleanField(default=False, editable=False)
 
     def __str__(self):
         return self.username + ' ' + self.email + ' optIn=' + self.optIn
-class Type(models.Model):
-    name = models.TextField()
 
-class Quests(models.Model):
+
+class Type(models.Model):
+    name = models.CharField(max_length=1024)
+
+    def __str__(self):
+        return self.name
+
+class Quest(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    quest_name = models.TextField()
+    quest_name = models.CharField(max_length=1024)
     description = models.TextField()
     link = models.URLField()
     type_id = models.ForeignKey(Type)
 
-class UserQuests(models.Model):
+    def __str__(self):
+        return self.quest_name
+
+class UserQuest(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user_id = models.ForeignKey(Users)
-    quest_id = models.ForeignKey(Quests)
+    user_id = models.ForeignKey(User)
+    quest_id = models.ForeignKey(Quest)
     completed = models.BooleanField(default=False)
 
-class Category(models.Model):
-    name = models.TextField()
+    def __str__(self):
+        return self.user_id
 
-class Items(models.Model):
+class Category(models.Model):
+    name = models.CharField(max_length=1024)
+
+class Item(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.TextField()
+    name = models.CharField(max_length=1024)
     description = models.TextField(null=True)
-    locations_found = models.TextField(null=True)
+    locations_found = models.CharField(null=True, max_length=1024)
     rupee_val = models.FloatField(null=True)
     category_id = models.ForeignKey(Category)
 
-class ItemQuests(models.Model):
-    item_id = models.ForeignKey(Items)
-    quest_id = models.ForeignKey(Quests)
+class ItemQuest(models.Model):
+    item_id = models.ForeignKey(Item)
+    quest_id = models.ForeignKey(Quest)
     quantity_required = models.IntegerField()
