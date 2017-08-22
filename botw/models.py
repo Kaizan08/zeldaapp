@@ -24,11 +24,11 @@ class User(models.Model):
     userTimezone = models.ForeignKey(TimezoneChart)
     createdDate = models.DateTimeField(default=timezone.now, editable=False)
     updatedDate = models.DateTimeField(default=timezone.now, editable=False)
-    lastLoginDate = models.DateTimeField(editable=False)
+    lastLoginDate = models.DateTimeField(editable=False, null=True)
     deleted = models.BooleanField(default=False, editable=False)
 
     def __str__(self):
-        return self.username + ' ' + self.email + ' optIn=' + self.optIn
+        return self.fname + ' ' + self.lname
 
 
 class Type(models.Model):
@@ -59,13 +59,19 @@ class UserQuest(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=1024)
 
+    def __str__(self):
+        return self.name
+
 class Item(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=1024)
-    description = models.TextField(null=True)
-    locations_found = models.CharField(null=True, max_length=1024)
-    rupee_val = models.FloatField(null=True)
+    description = models.TextField(null=True, blank=True)
+    locations_found = models.CharField(null=True, blank=True, max_length=1024)
+    rupee_val = models.IntegerField(null=True, blank=True)
     category_id = models.ForeignKey(Category)
+
+    def __str__(self):
+        return self.name
 
 class ItemQuest(models.Model):
     item_id = models.ForeignKey(Item)
