@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import User, Item, Category
+from .models import User, Item, Category, Quest, Type, ItemQuest
+from django.db.models import Aggregate
 
 admin.site.site_header = 'Administration'
 
@@ -11,9 +12,13 @@ class UserAdmin(admin.ModelAdmin):
     def full_name(self, obj):
         return obj.fname+' '+obj.lname
 
-class ItemAdmin(admin.ModelAdmin):
-    pass
+class ItemQuestAdmin(admin.ModelAdmin):
+    list_display = ('quest_id', 'item_id', 'quantity_required')
+
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Item)
 admin.site.register(Category)
+admin.site.register(Quest)
+admin.site.register(Type)
+admin.site.register(ItemQuest, ItemQuestAdmin)

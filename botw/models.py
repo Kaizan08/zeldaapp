@@ -40,8 +40,8 @@ class Type(models.Model):
 class Quest(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     quest_name = models.CharField(max_length=1024)
-    description = models.TextField()
-    link = models.URLField()
+    description = models.TextField(null=True, blank=True)
+    link = models.URLField(null=True, blank=True)
     type_id = models.ForeignKey(Type)
 
     def __str__(self):
@@ -77,3 +77,11 @@ class ItemQuest(models.Model):
     item_id = models.ForeignKey(Item)
     quest_id = models.ForeignKey(Quest)
     quantity_required = models.IntegerField()
+
+
+class SQLConcat(models.sql.aggregates.Aggregate):
+    sql_function = 'string_agg'
+
+    @property
+    def sql_template(self):
+        return "%(function)s(%(field)s::text, '%(separator)s')"
