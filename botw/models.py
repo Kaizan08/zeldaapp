@@ -79,7 +79,7 @@ class ItemQuest(models.Model):
     quantity_required = models.IntegerField()
 
 
-class SQLConcat(models.sql.aggregates.Aggregate):
+class SQLConcat(models.Aggregate):
     sql_function = 'string_agg'
 
     @property
