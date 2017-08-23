@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 import uuid
 
+
 class TimezoneChart(models.Model):
     name = models.TextField()
     hours = models.IntegerField(null=True)
@@ -11,7 +12,6 @@ class TimezoneChart(models.Model):
         return self.name
 
 class User(models.Model):
-
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     username = models.CharField(max_length=1024)
     fname = models.CharField(max_length=1024)
@@ -37,15 +37,25 @@ class Type(models.Model):
     def __str__(self):
         return self.name
 
+
+class Group(models.Model):
+    name = models.CharField(max_length=1024)
+
+    def __str__(self):
+        return self.name
+
+
 class Quest(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     quest_name = models.CharField(max_length=1024)
     description = models.TextField(null=True, blank=True)
     link = models.URLField(null=True, blank=True)
     type_id = models.ForeignKey(Type)
+    group = models.ForeignKey(Group, blank=True, null=True)
 
     def __str__(self):
         return self.quest_name
+
 
 class UserQuest(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -56,11 +66,13 @@ class UserQuest(models.Model):
     def __str__(self):
         return self.user_id
 
+
 class Category(models.Model):
     name = models.CharField(max_length=1024)
 
     def __str__(self):
         return self.name
+
 
 class Item(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -73,15 +85,16 @@ class Item(models.Model):
     def __str__(self):
         return self.name
 
+
 class ItemQuest(models.Model):
     item_id = models.ForeignKey(Item)
     quest_id = models.ForeignKey(Quest)
     quantity_required = models.IntegerField()
 
 
-class SQLConcat(models.Aggregate):
-    sql_function = 'string_agg'
-
-    @property
-    def sql_template(self):
-        return "%(function)s(%(field)s::text, '%(separator)s')"
+# class SQLConcat(models.Aggregate):
+#     sql_function = 'string_agg'
+#
+#     @property
+#     def sql_template(self):
+#         return "%(function)s(%(field)s::text, '%(separator)s')"
