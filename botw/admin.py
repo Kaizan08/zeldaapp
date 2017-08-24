@@ -1,7 +1,11 @@
 from django.contrib import admin
+from django.db import connection
 from .models import User, Item, Category, Quest, Type, ItemQuest, UserQuest, Group
 
+
 admin.site.site_header = 'Administration'
+
+
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -14,12 +18,13 @@ class UserAdmin(admin.ModelAdmin):
 
 
 class ItemQuestAdmin(admin.ModelAdmin):
-    list_display = ('quest_id', 'item_id', 'quantity_required')
+    list_display = ('quest', 'item', 'quantity_required')
 
 
 class QuestAdmin(admin.ModelAdmin):
     model = Quest
     list_display = ['quest',]
+    #list_display_links = None
     admin_order_field = 'quest_name'
     ordering = ['quest_name',]
 
