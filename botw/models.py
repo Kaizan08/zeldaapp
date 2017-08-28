@@ -38,7 +38,7 @@ class Type(models.Model):
         return self.name
 
 
-class Group(models.Model):
+class Set(models.Model):
     name = models.CharField(max_length=1024)
 
     def __str__(self):
@@ -51,7 +51,7 @@ class Quest(models.Model):
     description = models.TextField(null=True, blank=True)
     link = models.URLField(null=True, blank=True)
     type = models.ForeignKey(Type)
-    group = models.ForeignKey(Group, blank=True, null=True)
+    set = models.ForeignKey(Set, blank=True, null=True)
 
     def __str__(self):
         return self.quest_name
@@ -92,9 +92,3 @@ class ItemQuest(models.Model):
     quantity_required = models.IntegerField()
 
 
-# class SQLConcat(models.Aggregate):
-#     sql_function = 'string_agg'
-#
-#     @property
-#     def sql_template(self):
-#         return "%(function)s(%(field)s::text, '%(separator)s')"

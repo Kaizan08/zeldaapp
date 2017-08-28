@@ -3,7 +3,7 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = os.environ.get('ZELDA_SECRET', '')
+SECRET_KEY = os.environ.get('DJANGO_SECRET', '')
 
 DEBUG = True
 
@@ -53,7 +53,7 @@ WSGI_APPLICATION = 'zelda.wsgi.application'
 
 DATABASES = {
 'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'OPTIONS': {
             'options': '-c search_path=zelda'
         },

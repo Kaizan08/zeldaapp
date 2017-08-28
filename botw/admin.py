@@ -1,11 +1,9 @@
 from django.contrib import admin
-from django.db import connection
-from .models import User, Item, Category, Quest, Type, ItemQuest, UserQuest, Group
+from django import forms
+from .models import User, Item, Category, Quest, Type, ItemQuest, UserQuest, Set
 
 
 admin.site.site_header = 'Administration'
-
-
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -17,8 +15,19 @@ class UserAdmin(admin.ModelAdmin):
         return obj.fname+' '+obj.lname
 
 
+class ItemQuestAdminForm(forms.ModelForm):
+    item = forms.ModelChoiceField(queryset=Item.objects.order_by('name'))
+    quest = forms.ModelChoiceField(queryset=Quest.objects.order_by('quest_name'))
+
+    class Meta:
+        model = ItemQuest
+        fields = '__all__'
+
+
 class ItemQuestAdmin(admin.ModelAdmin):
-    list_display = ('quest', 'item', 'quantity_required')
+    # list_display = ('quest', 'item', 'quantity_required')
+    # ordering = ['id',]
+    form = ItemQuestAdminForm
 
 
 class QuestAdmin(admin.ModelAdmin):
@@ -26,7 +35,7 @@ class QuestAdmin(admin.ModelAdmin):
     list_display = ['quest',]
     #list_display_links = None
     admin_order_field = 'quest_name'
-    ordering = ['quest_name',]
+    ordering = ['quest_name', ]
 
     def quest(self, obj):
         return obj.quest_name
@@ -39,4 +48,4 @@ admin.site.register(Quest, QuestAdmin)
 admin.site.register(Type)
 admin.site.register(ItemQuest, ItemQuestAdmin)
 admin.site.register(UserQuest)
-admin.site.register(Group)
+admin.site.register(Set)
