@@ -46,7 +46,7 @@ class Set(models.Model):
 
 
 class Quest(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.BigAutoField(primary_key=True, editable=False)
     quest_name = models.CharField(max_length=1024)
     description = models.TextField(null=True, blank=True)
     link = models.URLField(null=True, blank=True)
@@ -75,7 +75,7 @@ class Category(models.Model):
 
 
 class Item(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.BigAutoField(primary_key=True, editable=False)
     name = models.CharField(max_length=1024)
     description = models.TextField(null=True, blank=True)
     locations_found = models.CharField(null=True, blank=True, max_length=1024)

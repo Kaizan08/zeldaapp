@@ -57,7 +57,7 @@ class CategoryAdmin(admin.ModelAdmin):
 class TypeAdmin(admin.ModelAdmin):
     ordering = ['name',]
 
-    
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Category, CategoryAdmin)
