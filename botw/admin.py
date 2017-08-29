@@ -41,11 +41,28 @@ class QuestAdmin(admin.ModelAdmin):
         return obj.quest_name
 
 
+class ItemAdmin(admin.ModelAdmin):
+    list_display = ('name', 'rupee_val', 'category')
+    ordering = ['name',]
+
+
+class SetAdmin(admin.ModelAdmin):
+    ordering = ['name',]
+
+
+class CategoryAdmin(admin.ModelAdmin):
+    ordering = ['name',]
+
+
+class TypeAdmin(admin.ModelAdmin):
+    ordering = ['name',]
+
+    
 admin.site.register(User, UserAdmin)
-admin.site.register(Item)
-admin.site.register(Category)
+admin.site.register(Item, ItemAdmin)
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(Quest, QuestAdmin)
 admin.site.register(Type)
 admin.site.register(ItemQuest, ItemQuestAdmin)
 admin.site.register(UserQuest)
-admin.site.register(Set)
+admin.site.register(Set, SetAdmin)
