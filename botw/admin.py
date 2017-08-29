@@ -25,8 +25,8 @@ class ItemQuestAdminForm(forms.ModelForm):
 
 
 class ItemQuestAdmin(admin.ModelAdmin):
-    # list_display = ('quest', 'item', 'quantity_required')
-    # ordering = ['id',]
+    list_display = ('quest', 'item', 'quantity_required')
+    ordering = ['id',]
     form = ItemQuestAdminForm
 
 
