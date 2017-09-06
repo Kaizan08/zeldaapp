@@ -26,16 +26,18 @@ class ItemQuestAdminForm(forms.ModelForm):
 
 class ItemQuestAdmin(admin.ModelAdmin):
     list_display = ('quest', 'item', 'quantity_required')
-    ordering = ['id',]
+    ordering = ['id', ]
     form = ItemQuestAdminForm
+    search_fields = ('quest', 'item', 'quantity_required')
 
 
 class QuestAdmin(admin.ModelAdmin):
     model = Quest
-    list_display = ['quest',]
+    list_display = ['quest', 'set', 'type']
     #list_display_links = None
     admin_order_field = 'quest_name'
     ordering = ['quest_name', ]
+    search_fields = ('quest', 'set', 'type')
 
     def quest(self, obj):
         return obj.quest_name

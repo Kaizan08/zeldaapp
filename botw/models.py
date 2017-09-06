@@ -91,4 +91,5 @@ class ItemQuest(models.Model):
     quest = models.ForeignKey(Quest)
     quantity_required = models.IntegerField()
 
-
+    def __str__(self):
+        return str(self.quest)
