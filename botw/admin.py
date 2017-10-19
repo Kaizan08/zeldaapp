@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django import forms
-from .models import User, Item, Category, Quest, Type, ItemQuest, UserQuest, Set
+from .models import User, Item, Category, Quest, Type, ItemQuest, UserQuest, Set, Amiibo, UserAmiibo
 
 
 admin.site.site_header = 'Administration'
@@ -45,19 +45,27 @@ class QuestAdmin(admin.ModelAdmin):
 
 class ItemAdmin(admin.ModelAdmin):
     list_display = ('name', 'rupee_val', 'category')
-    ordering = ['name',]
+    ordering = ['name', ]
 
 
 class SetAdmin(admin.ModelAdmin):
-    ordering = ['name',]
+    ordering = ['name', ]
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    ordering = ['name',]
+    ordering = ['name', ]
 
 
 class TypeAdmin(admin.ModelAdmin):
-    ordering = ['name',]
+    ordering = ['name', ]
+
+
+class AmiiboAdmin(admin.ModelAdmin):
+    ordering = ['amiibo_name', ]
+
+
+# class UserAmiiboAdmin(admin.ModelAdmin):
+#     ordering = ['amiibo_name', 'bought']
 
 
 admin.site.register(User, UserAdmin)
@@ -68,3 +76,5 @@ admin.site.register(Type)
 admin.site.register(ItemQuest, ItemQuestAdmin)
 admin.site.register(UserQuest)
 admin.site.register(Set, SetAdmin)
+admin.site.register(Amiibo, AmiiboAdmin)
+# admin.site.register(UserAmiibo, UserAmiiboAdmin)

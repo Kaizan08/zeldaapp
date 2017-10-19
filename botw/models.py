@@ -39,7 +39,7 @@ class Type(models.Model):
 
 
 class Set(models.Model):
-    name = models.CharField(max_length=1024)
+    name = models.CharField(max_length=1024, null=False)
 
     def __str__(self):
         return self.name
@@ -93,3 +93,22 @@ class ItemQuest(models.Model):
 
     def __str__(self):
         return str(self.quest)
+
+
+class Amiibo(models.Model):
+    id = models.BigAutoField(primary_key=True, editable=False)
+    amiibo_name = models.CharField(max_length=1024)
+    set = models.ForeignKey(Set)
+
+    def __str__(self):
+        return str(self.amiibo_name)
+
+
+class UserAmiibo(models.Model):
+    id = models.BigAutoField(primary_key=True, editable=False)
+    user_id = models.ForeignKey(User)
+    amiibo_id = models.ForeignKey(Amiibo)
+    bought = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.amiibo_name + self.bought)
